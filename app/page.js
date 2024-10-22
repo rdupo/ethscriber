@@ -3,15 +3,31 @@ import { React, useState, useEffect } from "react"
 import ethers from "ethers"
 import Image from "next/image";
 import Header from ".//components/Header";
+import Card from ".//components/Card";
 import Footer from ".//components/Footer";
+import phremix from ".//utils/Atts";
 
 export default function Home() {
+  const pr = phremix;
+
   return (
     <div className="bg-grey-900 flex flex-col h-screen justify-between">
       <Header/>
-      <div className="mb-auto h-10 ml-4 my-6">
-        <h1 className="text-white text-2xl">(PH)REMIX</h1>
-        <p className="text-white text-l">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <div className="mb-auto h-10 ml-4 my-6 w-5/6">
+        <h1 className="text-white text-2xl">(PH)REMIX.2174</h1>
+        <p className="text-white text-l">A collection of xxx CryptoPhunk remixes inspired by sampling in hip-hop beats, (PH)REMIXes are the next iteration of Phunk Remixes by <a href="https://x.com/0xDuplo" target="_blank" className="text-pink-500">Duplo</a>. While the first remixes we all manually created, (PH)REMIXes are computer assisted, with pixels randomly placed in a specified region (or regions) of the origional 24x24 grid, starting with <a href="https://www.vphree.io/cryptophunk/2174" target="_blank" className="text-pink-500">CryptoPhunk 2174</a>.</p>
+        <br/>
+        <p className="text-white text-l mb-6">To <a href="https://ethscriptions.com/" target="_blank" className="text-pink-500">Ethscribe</a> a (PH)REMIX, simple click the image and confirm the transaction. Simple as that.</p>
+        <div className="flex flex-wrap justify-start">
+          {pr.map((phunk) => (
+            (typeof(phunk.id) != 'undefined' ?
+              <Card
+                id={phunk.id}
+                name={phunk.name}
+              />
+            : null )  
+          ))}
+        </div>
       </div>
       <Footer/>
     </div>
