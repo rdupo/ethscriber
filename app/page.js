@@ -1,6 +1,6 @@
 "use client";
 import { React, useState, useEffect } from "react"
-import ethers from "ethers"
+import { ethers } from "ethers"
 import Image from "next/image";
 import Header from ".//components/Header";
 import Card from ".//components/Card";
