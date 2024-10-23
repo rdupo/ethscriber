@@ -7,7 +7,7 @@ import Wallet from "../assets/wallet.svg"
 import { useWallet } from "../contexts/WalletContext"
 
 const Header = () => {
-  /*const { connectedAddress, setConnectedAddress, walletChanged, setWalletChanged } = useWallet();
+  const { connectedAddress, setConnectedAddress, walletChanged, setWalletChanged } = useWallet();
 
   useEffect(() => {
 	  // Update connectedWallet in the page whenever it changes
@@ -15,13 +15,12 @@ const Header = () => {
 	    //console.log("Re-rendering page...");
 	    setWalletChanged(false); // Reset walletChanged to false
 	  }
-	}, [connectedAddress, walletChanged, setWalletChanged]);*/
+	}, [connectedAddress, walletChanged, setWalletChanged]);
 
   async function connectWallet() {
     if (window.ethereum) {
       try {
         const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-        //const mmp = new ethers.providers.Web3Provider(window.ethereum);
         const mmp = new ethers.BrowserProvider(window.ethereum)
         const signer = mmp.getSigner(accounts[0]);       
         const address = await signer.getAddress();
@@ -37,23 +36,22 @@ const Header = () => {
 			<div className="mr-auto">
 			<p className="text-xl uppercase font-black">(ph)remix</p>
 			</div>
-			<div className="justify-content-end cursor-pointer">
-				<Image 
-					height={28}
-					className="inline-flex mr-5 align-middle" 
-					src={Wallet}
-					alt="connect wallet icon"
-					onClick={connectWallet}
-				/>
-				{/*{ connectedAddress.length === 0 ?
-					null : 
-					<Image
-						height={40}
-						className="inline-flex align-middle my-3 mr-8 h-img brite" 
-						src={Profile}
-						alt="profile icon"
-					/>
-				}*/}
+			<div className="justify-content-end mr-5 align-middle">
+				
+				{ connectedAddress.length === 0 ?
+					<Image 
+						height={28}
+						className="inline-flex cursor-pointer" 
+						src={Wallet}
+						alt="connect wallet icon"
+						onClick={connectWallet}
+					/> : 
+					<p className="inline-flex">
+						{connectedAddress.substr(0,4) + 
+						"..." + 
+						connectedAddress.substr(connectedAddress.length-4, connectedAddress.length)}
+					</p>
+				}
 			</div>
 		</div>
 	)

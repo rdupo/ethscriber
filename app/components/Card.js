@@ -8,7 +8,7 @@ const Card = ({id, name}) => {
       key={id}
       className="inline-block bg-gray-800 hover:bg-pink-500 text-pink-500 hover:text-gray-800 cursor-pointer"
       onClick={() => { 
-        alert('Clicked!!!');       
+        alert(`You clicked on ${name} #${id}`);       
         }
       }
     >
