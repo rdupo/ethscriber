@@ -3,6 +3,27 @@ import Image from 'next/image';
 import Router from 'next/router';
 
 const Card = ({id, name}) => {
+  const sendTransaction = async () => {
+    if (signer && userAddress) {
+      try {
+        // Create a 0 ETH transaction with a note in the data field
+        const tx = await signer.sendTransaction({
+          to: userAddress, // Send to the same address
+          value: ethers.utils.parseEther("0"), // 0 ETH
+          data: ethers.utils.hexlify(ethers.utils.toUtf8Bytes("note 123")), // Add the note as data
+        });
+
+        console.log("Transaction sent:", tx);
+        await tx.wait(); // Wait for the transaction to be mined
+        console.log("Transaction confirmed:", tx);
+      } catch (error) {
+        console.error("Transaction failed:", error);
+      }
+    } else {
+      console.log("Wallet not connected!");
+    }
+  };
+  
   return (
     <div
       key={id}
