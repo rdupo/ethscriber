@@ -24,6 +24,7 @@ export default function Home() {
               <Card
                 id={phunk.id}
                 name={phunk.name}
+                key={`${phunk.name}${phunk.id}`}
               />
             : null )  
           ))}

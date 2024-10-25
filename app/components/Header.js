@@ -12,8 +12,7 @@ const Header = () => {
   useEffect(() => {
 	  // Update connectedWallet in the page whenever it changes
 	  if (walletChanged) {
-	    //console.log("Re-rendering page...");
-	    setWalletChanged(false); // Reset walletChanged to false
+	    setWalletChanged(false);
 	  }
 	}, [connectedAddress, walletChanged, setWalletChanged]);
 
@@ -21,10 +20,10 @@ const Header = () => {
     if (window.ethereum) {
       try {
         const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-        const mmp = new ethers.BrowserProvider(window.ethereum)
-        const signer = mmp.getSigner(accounts[0]);       
+        const metamask = new ethers.BrowserProvider(window.ethereum)
+        const signer = await metamask.getSigner(accounts[0]);
         const address = await signer.getAddress();
-        setConnectedAddress(address); // Update the state with the connected address
+        setConnectedAddress(address); 
       } catch (error) {
         console.log("MetaMask not found or error:", error);
       }
