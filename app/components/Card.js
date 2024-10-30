@@ -4,11 +4,26 @@ import toast, { Toaster } from 'react-hot-toast';
 import Image from 'next/image';
 import Router from 'next/router';
 import { useWallet } from '../contexts/WalletContext';
+import { db } from '../../lib/firebase';
+import { ref, set } from "firebase/database";
 
 const Card = ({id, name}) => {
   const { connectedAddress, setConnectedAddress, walletChanged, setWalletChanged } = useWallet();
-  const provider = new ethers.BrowserProvider(window.ethereum)
+  const provider = new ethers.BrowserProvider(window.ethereum, 'sepolia')
   const hourglass = <img className='w-8 invert' src='/hourglass-time.gif' alt='hourglass'/>
+
+  const saveTransaction = async (hash, dataValue) => {
+    try {
+      const transactionRef = ref(db, `transactions/${hash}`);
+      await set(transactionRef, {
+        hash,
+        dataValue,
+      });
+      console.log("Transaction saved successfully!");
+    } catch (error) {
+      console.error("Error saving transaction:", error);
+    }
+  };
 
   const txnToast = (x, y) => {
     if (!(x instanceof Promise)) {
@@ -61,6 +76,7 @@ const Card = ({id, name}) => {
         await tx
         .then(async (result) => {
           const rh = result.hash
+          const rd = result.data
           await metamask.waitForTransaction(rh).then((listReceipt) => {
             if (listReceipt.status === 1) { // Check if listing transaction was successful
               toast.dismiss();
@@ -71,6 +87,7 @@ const Card = ({id, name}) => {
                   icon:'👍'
                 },
               });
+              saveTransaction(rh, rd);
             } else {
               toast.dismiss();
               toast('Transaction failed!', {
