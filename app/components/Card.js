@@ -1,16 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ethers, parseEther, toUtf8Bytes, hexlify } from 'ethers';
 import toast, { Toaster } from 'react-hot-toast';
 import Image from 'next/image';
 import Router from 'next/router';
 import { useWallet } from '../contexts/WalletContext';
-import { db } from '../../lib/firebase';
-import { ref, set } from "firebase/database";
+import { app, db } from '../../lib/firebase';
+import { ref, set, onValue, off, get } from "firebase/database";
 
 const Card = ({id, name}) => {
   const { connectedAddress, setConnectedAddress, walletChanged, setWalletChanged } = useWallet();
   const provider = new ethers.BrowserProvider(window.ethereum, 'sepolia')
   const hourglass = <img className='w-8 invert' src='/hourglass-time.gif' alt='hourglass'/>
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const dbRef = ref(db, 'transactions/');
+      const snapshot = await get(dbRef);
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        console.log("db:", data);
+        setTransactions(Object.values(data));
+      } else {
+        console.log("No data available");
+      }
+    } catch (error) {
+      console.error("Error fetching data with get():", error);
+    }
+  };
+  fetchData();
+}, []);
 
   const saveTransaction = async (hash, dataValue) => {
     try {
