@@ -6,9 +6,31 @@ import Header from ".//components/Header";
 import Card from ".//components/Card";
 import Footer from ".//components/Footer";
 import phremix from ".//utils/Atts";
+import { app, db } from '../lib/firebase';
+import { ref, set, onValue, off, get } from "firebase/database";
 
 export default function Home() {
   const pr = phremix;
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const dbRef = ref(db, 'transactions/');
+        const snapshot = await get(dbRef);
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          console.log("page db:", data);
+          setTransactions(Object.values(data));
+        } else {
+          console.log("No data available");
+        }
+      } catch (error) {
+        console.error("Error fetching data with get():", error);
+      }
+    };    
+    fetchData();
+  }, []);
 
   return (
     <div className="bg-grey-900 flex flex-col h-screen justify-between">
@@ -25,8 +47,10 @@ export default function Home() {
                 id={phunk.id}
                 name={phunk.name}
                 key={`${phunk.name}${phunk.id}`}
+                desat={phunk.data === "(ph)remix01" ? true : false}
               />
-            : null )  
+              : 
+              <p>Loading...</p> )  
           ))}
         </div>
       </div>

@@ -7,30 +7,10 @@ import { useWallet } from '../contexts/WalletContext';
 import { app, db } from '../../lib/firebase';
 import { ref, set, onValue, off, get } from "firebase/database";
 
-const Card = ({id, name}) => {
+const Card = ({id, name, desat}) => {
   const { connectedAddress, setConnectedAddress, walletChanged, setWalletChanged } = useWallet();
   const provider = new ethers.BrowserProvider(window.ethereum, 'sepolia')
   const hourglass = <img className='w-8 invert' src='/hourglass-time.gif' alt='hourglass'/>
-  const [transactions, setTransactions] = useState([]);
-
-  useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const dbRef = ref(db, 'transactions/');
-      const snapshot = await get(dbRef);
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        console.log("db:", data);
-        setTransactions(Object.values(data));
-      } else {
-        console.log("No data available");
-      }
-    } catch (error) {
-      console.error("Error fetching data with get():", error);
-    }
-  };
-  fetchData();
-}, []);
 
   const saveTransaction = async (hash, dataValue) => {
     try {
@@ -128,8 +108,21 @@ const Card = ({id, name}) => {
   
   return (
     <div
-      className="inline-block bg-gray-800 hover:bg-pink-500 text-pink-500 hover:text-gray-800 cursor-pointer"
-      onClick={() => { 
+      className={desat ?
+                "saturate-0 inline-block bg-gray-800 hover:bg-pink-500 text-pink-500 hover:text-gray-800 cursor-pointer"
+                :
+                "inline-block bg-gray-800 hover:bg-pink-500 text-pink-500 hover:text-gray-800 cursor-pointer"
+              }
+      onClick={() => {
+        desat ?
+        toast(`${name} #${id} already Ethscribed!`, {
+                style: {
+                  color: '#fff',
+                  background: '#DB2777',
+                  icon:'👎'
+                },
+              })
+        : 
         sendTransaction();
         }
       }
