@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect } from 'react';
 import { ethers, parseEther, toUtf8Bytes, hexlify } from 'ethers';
 import toast, { Toaster } from 'react-hot-toast';

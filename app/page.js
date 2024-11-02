@@ -1,6 +1,6 @@
 "use client";
 import { React, useState, useEffect } from "react"
-import { ethers } from "ethers"
+import { ethers, toUtf8Bytes, hexlify } from 'ethers';
 import Image from "next/image";
 import Header from ".//components/Header";
 import Card from ".//components/Card";
@@ -12,6 +12,11 @@ import { ref, set, onValue, off, get } from "firebase/database";
 export default function Home() {
   const pr = phremix;
   const [transactions, setTransactions] = useState([]);
+  
+  const check = (phunkData) => {
+    const matchFound = transactions.some(obj => obj.dataValue === phunkData);  
+    return matchFound;
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +25,6 @@ export default function Home() {
         const snapshot = await get(dbRef);
         if (snapshot.exists()) {
           const data = snapshot.val();
-          console.log("page db:", data);
           setTransactions(Object.values(data));
         } else {
           console.log("No data available");
@@ -31,6 +35,14 @@ export default function Home() {
     };    
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (transactions.length > 0) {
+      console.log("txns:", transactions);
+      const matchFound = check(hexlify(toUtf8Bytes('go fuck yourself')), transactions);
+      console.log("Match found:", matchFound);
+    }
+  }, [transactions]);
 
   return (
     <div className="bg-grey-900 flex flex-col h-screen justify-between">
@@ -47,7 +59,7 @@ export default function Home() {
                 id={phunk.id}
                 name={phunk.name}
                 key={`${phunk.name}${phunk.id}`}
-                desat={phunk.data === "(ph)remix01" ? true : false}
+                desat={check(phunk.data)}
               />
               : 
               <p>Loading...</p> )  
