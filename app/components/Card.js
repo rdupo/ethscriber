@@ -1,4 +1,3 @@
-"use client"
 import React, { useState, useEffect } from 'react';
 import { ethers, parseEther, toUtf8Bytes, hexlify } from 'ethers';
 import toast, { Toaster } from 'react-hot-toast';
@@ -134,8 +133,8 @@ const Card = ({id, name, desat}) => {
           src={`/remix${id}.png`}
           loading="lazy"
           alt={`phunk ${id}`}
-          height="200"
-          width="200"
+          height="150"
+          width="150"
         />
       </div>
       <div className="ml-2 mb-2 text-md font-bold">

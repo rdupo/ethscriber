@@ -52,7 +52,7 @@ export default function Home() {
         <p className="text-white text-l">A collection of xxx CryptoPhunk remixes inspired by sampling in hip-hop beats, (PH)REMIXes are the next iteration of Phunk Remixes by <a href="https://x.com/0xDuplo" target="_blank" className="text-pink-500">Duplo</a>. While the first remixes we all manually created, (PH)REMIXes are computer assisted, with pixels randomly placed in a specified region (or regions) of the origional 24x24 grid, starting with <a href="https://www.vphree.io/cryptophunk/2174" target="_blank" className="text-pink-500">CryptoPhunk 2174</a>.</p>
         <br/>
         <p className="text-white text-l mb-6">To <a href="https://ethscriptions.com/" target="_blank" className="text-pink-500">Ethscribe</a> a (PH)REMIX, simple click the image and confirm the transaction. Simple as that.</p>
-        <div className="flex flex-wrap justify-start">
+        <div className="flex flex-wrap justify-start pb-80">
           {pr.map((phunk) => (
             (typeof(phunk.id) != 'undefined' ?
               <Card
