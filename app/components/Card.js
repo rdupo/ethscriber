@@ -7,7 +7,7 @@ import { useWallet } from '../contexts/WalletContext';
 import { app, db } from '../../lib/firebase';
 import { ref, set, onValue, off, get } from "firebase/database";
 
-const Card = ({id, name, desat}) => {
+const Card = ({id, name, desat, data}) => {
   const { connectedAddress, setConnectedAddress, walletChanged, setWalletChanged } = useWallet();
   const provider = new ethers.BrowserProvider(window.ethereum, 'sepolia')
   const hourglass = <img className='w-8 invert' src='/hourglass-time.gif' alt='hourglass'/>
@@ -19,7 +19,7 @@ const Card = ({id, name, desat}) => {
         hash,
         dataValue,
       });
-      console.log("Transaction saved successfully!");
+      //console.log("Transaction saved successfully!");
     } catch (error) {
       console.error("Error saving transaction:", error);
     }
@@ -62,13 +62,12 @@ const Card = ({id, name, desat}) => {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         const metamask = new ethers.BrowserProvider(window.ethereum)
         const signer = await metamask.getSigner(accounts[0]);
-        console.log(`card|signer: ${signer.address}`)
 
         //create and send 0 ETH transaction with ethscription in the data field
         const tx = signer.sendTransaction({
           to: signer.address,
           value: parseEther('0'),
-          data: hexlify(toUtf8Bytes('go fuck yourself')),
+          data: hexlify(toUtf8Bytes(data)),
         });
 
         txnToast(tx, `Ethscribing ${name} #${id}`); 

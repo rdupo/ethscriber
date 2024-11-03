@@ -19,9 +19,10 @@ export default function Home() {
   }
 
   useEffect(() => {
+    const dbRef = ref(db, 'transactions/');
+    
     const fetchData = async () => {
       try {
-        const dbRef = ref(db, 'transactions/');
         const snapshot = await get(dbRef);
         if (snapshot.exists()) {
           const data = snapshot.val();
@@ -32,17 +33,26 @@ export default function Home() {
       } catch (error) {
         console.error("Error fetching data with get():", error);
       }
-    };    
-    fetchData();
-  }, []);
+    };
 
-  useEffect(() => {
-    if (transactions.length > 0) {
-      console.log("txns:", transactions);
-      const matchFound = check(hexlify(toUtf8Bytes('go fuck yourself')), transactions);
-      console.log("Match found:", matchFound);
-    }
-  }, [transactions]);
+    // Initial fetch on component mount
+    fetchData();
+
+    // Set up a listener for changes
+    const unsubscribe = onValue(dbRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        setTransactions(Object.values(data));
+      } else {
+        console.log("No data available");
+      }
+    });
+
+    // Clean up the listener on component unmount
+    return () => {
+      off(dbRef, 'value', unsubscribe);
+    };
+  }, []);
 
   return (
     <div className="bg-grey-900 flex flex-col h-screen justify-between">
@@ -59,7 +69,8 @@ export default function Home() {
                 id={phunk.id}
                 name={phunk.name}
                 key={`${phunk.name}${phunk.id}`}
-                desat={check(phunk.data)}
+                desat={check(hexlify(toUtf8Bytes(phunk.data)))}
+                data={phunk.data}
               />
               : 
               <p>Loading...</p> )  
