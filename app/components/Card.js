@@ -144,7 +144,7 @@ const Card = ({id, name, desat, data}) => {
           width="120"
         />
       </div>
-      <div className="ml-3 mb-2 text-sm font-bold">
+      <div className="ml-4 mb-2 text-sm font-bold">
         <p className="uppercase">{`${name} #${id}`}</p>
       </div>
     </div>
