@@ -33,7 +33,7 @@ const Header = () => {
 	return 	(
 		<div className="bg-[#c3ff00] flex pl-4">
 			<div className="mr-auto">
-			<p className="text-xl uppercase text-black text-semibold">(ph)remix</p>
+			<p className="text-xl uppercase text-black text-bold">(ph)remix</p>
 			</div>
 			<div className="justify-content-end mr-5 align-middle">
 				
