@@ -7,7 +7,7 @@ import { useWallet } from '../contexts/WalletContext';
 import { app, db } from '../../lib/firebase';
 import { ref, set, onValue, off, get } from "firebase/database";
 
-const Card = ({id, name, desat, data, key}) => {
+const Card = ({id, name, desat, data}) => {
   const { connectedAddress, setConnectedAddress, walletChanged, setWalletChanged } = useWallet();
   //const provider = new ethers.BrowserProvider(window.ethereum, 'sepolia')
   const hourglass = <img className='w-8 invert' src='/hourglass-time.gif' alt='hourglass'/>
@@ -115,7 +115,6 @@ const Card = ({id, name, desat, data, key}) => {
   
   return (
     <div
-      key={key}
       className={desat ?
                 "saturate-0 inline-block bg-gray-800 hover:bg-pink-500 text-pink-500 hover:text-gray-800 cursor-pointer"
                 :
@@ -137,16 +136,16 @@ const Card = ({id, name, desat, data, key}) => {
     >
       <div>
         <Image
-          className="w-100"
-          src={`/remix${id}.png`}
+          className="w-100 mx-4 mt-4"
+          src={`/${id}.svg`}
           loading="lazy"
           alt={`phunk ${id}`}
-          height="150"
-          width="150"
+          height="120"
+          width="120"
         />
       </div>
-      <div className="ml-2 mb-2 text-md font-bold">
-        <p>{`${name} #${id}`}</p>
+      <div className="ml-4 mb-2 text-md font-bold">
+        <p className="uppercase">{`${name} #${id}`}</p>
       </div>
     </div>
   );
