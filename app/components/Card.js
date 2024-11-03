@@ -9,8 +9,16 @@ import { ref, set, onValue, off, get } from "firebase/database";
 
 const Card = ({id, name, desat, data, key}) => {
   const { connectedAddress, setConnectedAddress, walletChanged, setWalletChanged } = useWallet();
-  const provider = new ethers.BrowserProvider(window.ethereum, 'sepolia')
+  //const provider = new ethers.BrowserProvider(window.ethereum, 'sepolia')
   const hourglass = <img className='w-8 invert' src='/hourglass-time.gif' alt='hourglass'/>
+  const [provider, setProvider] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.ethereum) {
+      const browserProvider = new ethers.BrowserProvider(window.ethereum, 'sepolia');
+      setProvider(browserProvider);
+    }
+  }, []);
 
   const saveTransaction = async (hash, dataValue) => {
     try {
