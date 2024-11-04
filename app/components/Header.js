@@ -35,8 +35,7 @@ const Header = () => {
 			<div className="mr-auto">
 			<p className="text-xl uppercase text-black text-bold">(ph)remix</p>
 			</div>
-			<div className="justify-content-end mr-5 align-middle">
-				
+			{/*<div className="justify-content-end mr-5 align-middle">				
 				{ connectedAddress.length === 0 ?
 					<Image 
 						height={28}
@@ -51,7 +50,7 @@ const Header = () => {
 						connectedAddress.substr(connectedAddress.length-4, connectedAddress.length)}
 					</p>
 				}
-			</div>
+			</div>*/}
 		</div>
 	)
 } 
