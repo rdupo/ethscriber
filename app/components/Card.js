@@ -20,14 +20,16 @@ const Card = ({id, name, desat, data}) => {
     }
   }, []);
 
-  const saveTransaction = async (hash, dataValue) => {
+  const saveTransaction = async (hash, dataValue, from, to, event) => {
     try {
       const transactionRef = ref(db, `transactions/${hash}`);
       await set(transactionRef, {
         hash,
         dataValue,
+        from,
+        to,
+        event
       });
-      //console.log("Transaction saved successfully!");
     } catch (error) {
       console.error("Error saving transaction:", error);
     }
@@ -84,6 +86,9 @@ const Card = ({id, name, desat, data}) => {
         .then(async (result) => {
           const rh = result.hash
           const rd = result.data
+          const rf = result.from
+          const rt = result.to
+          const ev = "created"
           await metamask.waitForTransaction(rh).then((listReceipt) => {
             if (listReceipt.status === 1) { // Check if listing transaction was successful
               toast.dismiss();
@@ -94,7 +99,7 @@ const Card = ({id, name, desat, data}) => {
                   icon:'👍'
                 },
               });
-              saveTransaction(rh, rd);
+              saveTransaction(rh, rd, rf, rt, ev);
             } else {
               toast.dismiss();
               toast('Transaction failed!', {
