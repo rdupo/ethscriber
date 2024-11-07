@@ -80,7 +80,7 @@ const Card = ({id, name, desat, data}) => {
           data: hexlify(toUtf8Bytes(data)),
         });
 
-        txnToast(tx, `Ethscribing ${name} #${id}`); 
+        txnToast(tx, `Ethscribing (Ph)remix #${id}`); 
 
         await tx
         .then(async (result) => {
