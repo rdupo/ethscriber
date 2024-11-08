@@ -142,9 +142,9 @@ const Card = ({id, name, desat, data}) => {
   return (
     <div
       className={desat ?
-                "saturate-0 inline-block bg-gray-800 hover:bg-pink-500 text-pink-500 hover:text-gray-800 cursor-pointer"
+                "saturate-0 inline-block bg-gray-800 hover:bg-[#00dfff] text-[#00dfff] hover:text-gray-800 cursor-pointer"
                 :
-                "inline-block bg-gray-800 hover:bg-pink-500 text-pink-500 hover:text-gray-800 cursor-pointer"
+                "inline-block bg-gray-800 hover:bg-[#00dfff] text-[#00dfff] hover:text-gray-800 cursor-pointer"
               }
       onClick={() => {
         desat ?
