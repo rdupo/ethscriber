@@ -2,6 +2,7 @@
 import { React, useState, useEffect } from "react"
 import { ethers, toUtf8Bytes, hexlify } from 'ethers';
 import Image from "next/image";
+import { DbProvider } from ".//contexts/DbContext";
 import Header from ".//components/Header";
 import Card from ".//components/Card";
 import Footer from ".//components/Footer";
@@ -58,6 +59,7 @@ export default function Home() {
   }, []);
 
   return (
+    <DbProvider>
     <div className="bg-grey-900 flex flex-col h-screen justify-between">
       <Header/>
       {/*<span className="bg-pink-500 text-white pl-4 py-2">🚧 Down for maintenance 🚧</span>*/}
@@ -85,5 +87,6 @@ export default function Home() {
       </div>
       <Footer/>
     </div>
+    </DbProvider>
   );
 }
