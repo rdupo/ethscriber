@@ -13,10 +13,10 @@ const Card = ({id, name, desat, data}) => {
   //const provider = new ethers.BrowserProvider(window.ethereum, 'sepolia')
   const hourglass = <img className='w-8 invert' src='/hourglass-time.gif' alt='hourglass'/>
   const [provider, setProvider] = useState(null);
-  const db = useDb();
+  const dbRef = useDb();
 
   const check = (phunkData) => {
-    const matchFound = db.some(obj => obj.dataValue === phunkData); 
+    const matchFound = dbRef.some(obj => obj.dataValue === phunkData); 
     return matchFound;
   }
 
@@ -37,6 +37,7 @@ const Card = ({id, name, desat, data}) => {
         to,
         event
       });
+      console.log("Txn saved!")
     } catch (error) {
       console.error("Error saving transaction:", error);
     }
@@ -73,7 +74,7 @@ const Card = ({id, name, desat, data}) => {
   };
 
   const sendTransaction = async () => {
-    console.log('card db: ', db);
+    console.log('card db: ', dbRef);
     if (window.ethereum) {    
       try {
         //get currently connected account info
@@ -146,7 +147,7 @@ const Card = ({id, name, desat, data}) => {
               }
       onClick={() => {
         desat ?
-        toast(`${name} #${id} already Ethscribed!`, {
+        toast(`(Ph)remix #${id} already Ethscribed!`, {
                 style: {
                   color: '#fff',
                   background: '#DB2777',
