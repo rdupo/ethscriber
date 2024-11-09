@@ -82,7 +82,7 @@ const Card = ({id, name, desat, data}) => {
         const metamask = new ethers.BrowserProvider(window.ethereum)
         const signer = await metamask.getSigner(accounts[0]);
 
-        if(check(data)) {
+        if(dbRef && check(data)) {
           toast(`Someone beat you to (Ph)remix #${id}. Please make a different selection.`, {
                 style: {
                   color: '#fff',
